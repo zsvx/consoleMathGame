@@ -1,0 +1,121 @@
+import java.util.Scanner;
+import java.util.Random;
+
+class Main {
+  public static void main(String[] args) {
+    // Starts the game
+    String newLine = System.getProperty("line.separator");
+    Scanner inp = new Scanner(System.in);
+    System.out.println(newLine + "What order of operations would you like? ");
+    String userChoice = inp.nextLine();
+    // Declares some variables
+    int choice = 0;
+    String eqSign = " ";
+    int power = 1;
+    int difInc = 1;
+    // Gamemode choices
+    if (userChoice.equalsIgnoreCase("Addition")) {
+      choice = 1;
+      eqSign = "plus";
+    }
+    if (userChoice.equalsIgnoreCase("Subtraction")) {
+      choice = 2;
+      eqSign = "minus";
+    }
+    if (userChoice.equalsIgnoreCase("Multiplication")) {
+      choice = 3;
+      eqSign = "times";
+    }
+    if (userChoice.equalsIgnoreCase("Division")) {
+      choice = 4;
+      eqSign = "divided by";
+    }
+
+      // Error trapping
+    if (choice == 0) {
+      System.out.println("Sorry, that is an invalid choice." + newLine + "Please select one from the following:" + newLine + "Addition" + newLine + "Subtraction" + newLine + "Multiplication" + newLine + "Division");
+      while (choice == 0) {
+        System.out.print("Please select a valid choice." + newLine);
+        userChoice = inp.nextLine();
+        if (userChoice.equalsIgnoreCase("Addition")) {
+        choice = 1;
+        eqSign = "plus";
+        }
+        if (userChoice.equalsIgnoreCase("Subtraction")) {
+        choice = 2;
+        eqSign = "minus";
+        }
+        if (userChoice.equalsIgnoreCase("Multiplication")) {
+        choice = 3;
+        eqSign = "times";
+        }
+        if (userChoice.equalsIgnoreCase("Division")) {
+        choice = 4;
+        eqSign = "divided by";
+        }
+        if (choice > 0) {
+          break;
+        }
+      }
+    }
+    // Begins the game
+    int choiceBlock = 0;
+    System.out.print("Are you ready? ");
+    String readyAns = inp.nextLine();
+    if (readyAns.equalsIgnoreCase("No")) {
+      System.out.print("Tough. ");
+      choiceBlock = 1;
+    }
+    if (readyAns.equalsIgnoreCase("Yes")) {
+      System.out.print("Great! ");
+      choiceBlock = 1;
+    }
+    if (choiceBlock == 0) {
+      System.out.print("What? Eh, who cares, you're starting anyways." + newLine);
+    }
+    // Begins the loop
+    for(int i=1; i>=1; i++) {
+    // Difficulty increases after getting 10 questions correct then adding 1 one to the power
+    if (difInc == 10) {
+    power++;
+    difInc = 1;
+    }
+    // RNG, second number cannot be higher than first number
+    int firstNum = (int)(Math.random() * (Math.pow(10, power)) + 1);
+    int secondNum = (int)(Math.random() * firstNum + 1);
+    // Finds the correct answer depending on what choice the user selected
+    int correctAns = 0;
+    if (choice == 1) {
+    correctAns = firstNum + secondNum;
+    }
+    if (choice == 2) {
+      correctAns = firstNum - secondNum;
+    }
+    if (choice == 3) {
+      correctAns = firstNum * secondNum;
+    }
+    if (choice == 4) {
+      correctAns = firstNum / secondNum;
+    }
+    // Asks the question
+    System.out.print("What is " + firstNum + " " + eqSign + " " + secondNum + "? ");
+    int userAns;
+    // Repeats question if user inputted a word and not a valid integer
+    while(!inp.hasNextInt()) {
+          inp.next();
+          System.out.println("Please enter a valid integer. ");
+        }
+        userAns = inp.nextInt();
+    // Displays something depending on if the user got it right or not
+    if (userAns != correctAns) {
+      System.out.print("Sorry, the correct answer was actually " + correctAns + ". ");
+      break;
+    }
+    if (userAns == correctAns) {
+      System.out.print("Nice! ");
+      difInc++;
+    }
+  }
+  inp.close();
+ }
+}
